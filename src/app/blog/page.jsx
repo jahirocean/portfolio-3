@@ -4,7 +4,16 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 async function getData() {
-  const res = await fetch("/api/posts",{
+
+   const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL;
+
+  if(!baseUrl){
+    console.error("Warning: NEXTAUTH_URL or VERCEL_URL is not set. Fetching relative path.");
+  }
+
+  const urlToFetch = `${baseUrl || ''}/api/posts`
+
+  const res = await fetch(urlToFetch,{
     cache: "no-cache",
   })
 

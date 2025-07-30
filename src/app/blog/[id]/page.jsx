@@ -5,7 +5,14 @@ import { notFound } from "next/navigation";
 
 
 async function getData(id) {
-  const res = await fetch(`/api/posts/${id}`,{
+  const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL;
+
+  if(!baseUrl){
+    console.error("Warning: NEXTAUTH_URL or VERCEL_URL is not set. Fetching relative path.");
+  }
+
+  const urlToFetch = `${baseUrl || ''}/api/posts/${id}`
+  const res = await fetch(urlToFetch,{
     cache: "no-store",
   })
 
